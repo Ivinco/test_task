@@ -8,6 +8,6 @@ Task 1: add to the compose YAML new image (use already existing images as much a
 
 Task 2: fix the performance issue in test.php / mysql config (find the problem yourself). The point is that the mysql query now takes about 30 sec while it should take a second or less. Commit your changes and make a merge request.
 
-Task 3: add to the compose YAML another image running Manticore Search. Make it index all from hn.hackernews from the mysql on start and start searchd. Commit and make a MR
+Task 3: add to the compose YAML another image running Manticore Search (or sphinx, no matter). Make it index all from hn.hackernews from the mysql on start and start searchd. Commit and make a MR
 
-Task 4: add to the compose YAML another image running php + some web server running on port 82. The php script should be search.php and should be able to do search.php?query=something, go to the searchd, find documents by the query, then go to the mysql, fetch the documents and return that all
+Task 4: add to the compose YAML another image running php (or python/whataver else, no matter) + some web server running on port 82. The script should be accessible from outside and should be able to do ...?query=something, go to the searchd, find documents by the query, then go to the mysql, fetch the documents and return that all
