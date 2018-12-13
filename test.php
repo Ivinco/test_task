@@ -1,4 +1,4 @@
-<?php
+<?php 
 $m = new mysqli('mysql', 'root', 'pass', 'hn', '3306');
 while (true) {
 	echo date('c')."\n";
