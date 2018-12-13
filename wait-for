@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/sh -x
 
-TIMEOUT=15
+TIMEOUT=1
 QUIET=0
 
 echoerr() {
@@ -55,6 +55,7 @@ do
     ;;
     --timeout=*)
     TIMEOUT="${1#*=}"
+    echo $TIMEOUT
     shift 1
     ;;
     --)
