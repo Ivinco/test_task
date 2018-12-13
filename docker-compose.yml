@@ -27,6 +27,7 @@ services:
       - ./sphinxsearch:/etc/sphinxsearch
       - log:/var/log/sphinx
       - data:/var/lib/sphinx
+      - idx:/var/idx/sphinx
     command: >
       bash -c "./indexandsearch.sh"
 
@@ -34,4 +35,5 @@ volumes:
   sphinxsearch: 
   log:
   data:
+  idx:
   
