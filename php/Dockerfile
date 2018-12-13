@@ -6,7 +6,7 @@ RUN apt-get update \
 COPY ./localhost.conf  /etc/apache2/sites-available/
 
 RUN mkdir -p /var/www/html
-RUN chmod -R www-data: /var/www/html
+RUN chown -R www-data: /var/www/html
 
 RUN service apache2 restart
 WORKDIR /etc/apache2/sites-available/
