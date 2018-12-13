@@ -13,3 +13,25 @@ services:
     depends_on:
       - "mysql"
     command: [ "/tmp/wait-for", "mysql:3306", "-t", "1000", "--", "php", "/tmp/test.php" ]
+  sphinxsearch:
+    container_name: sphinxsearch
+    depends_on:
+      - "mysql"
+    ports: 
+      - 9312:9312
+      - 9306:9306
+    image: stefobark/sphinxdocker
+    links:
+      - mysql
+    volumes:
+      - ./sphinxsearch:/etc/sphinxsearch
+      - log:/var/log/sphinx
+      - data:/var/lib/sphinx
+    command: >
+      bash -c "./indexandsearch.sh"
+
+volumes:
+  sphinxsearch: 
+  log:
+  data:
+  
