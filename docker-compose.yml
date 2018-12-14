@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
   mysql:
     image: ivinco/test_task_mysql_hn:1
@@ -40,8 +40,28 @@ services:
       - sphinxsearch
     links:
       - sphinxsearch
-
+  nagios:
+    ###Add mysql-client to quick check. Probably we could use NRPE too
+    build:
+      context: .
+      dockerfile: Dockerfile_nagios
+    container_name: nagios
+    volumes:
+    ###Make configs persistent and add custom scripts
+    - etc:/opt/nagios/etc
+    - var:/opt/nagios/var
+    - ./plugins:/opt/Custom-Nagios-Plugins
+    - ./cfg:/opt/nagios/etc/conf.d/
+    ports:
+      - 81:80
+    links:
+      ###Link to mysql to access image directly
+      - mysql
 volumes:
+  etc:
+  var:
+  plugins:
+  cfg:
   sphinxsearch: 
   log:
   data:
