@@ -1,0 +1,26 @@
+#!/bin/bash
+linecount=0
+##connect to mysql 
+processes=$(echo "show processlist" | mysql -hmysql -P3306 -uroot -ppass)
+oldIfs=$IFS
+IFS='
+'
+echo "Checking for slow MySQL queries..."
+for line in $processes
+do
+    if [ "$linecount" -gt 0 ]
+        then
+            pid=$(echo "$line" | cut -f1)
+            length=$(echo "$line" | cut -f6)
+            query=$(echo "$line" | cut -f8)
+            ###Check is process is running more than 5 sec 
+            if [ "$length" -gt 5 ]
+                then
+                    echo "CRITICAL: Process with pid=$pid is above execution time of $length seconds! (query=$query)"
+                    ###Make nagios alert it 
+                    exit 2
+            fi
+    fi
+    linecount=`expr $linecount + 1`
+done
+IFS=$oldIfs
