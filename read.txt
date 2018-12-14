@@ -1,0 +1,63 @@
+mysql> select comment_ranking, sum(story_comment_count+author_comment_count) c from hackernews where comment_ranking in (30,31,32) group by comment_ranking;
++-----------------+---------+
+| comment_ranking | c       |
++-----------------+---------+
+| 30              | 2290813 |
+| 31              | 2051937 |
+| 32              | 1882127 |
++-----------------+---------+
+3 rows in set (16.01 sec)
+
+mysql> show profiles ;
++----------+-------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Query_ID | Duration    | Query                                                                                                                                                |
++----------+-------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
+|        1 | 16.01184425 | select comment_ranking, sum(story_comment_count+author_comment_count) c from hackernews where comment_ranking in (30,31,32) group by comment_ranking |
++----------+-------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> show profile ;
++----------------------+-----------+
+| Status               | Duration  |
++----------------------+-----------+
+| starting             |  0.000145 |
+| checking permissions |  0.000017 |
+| Opening tables       |  0.000026 |
+| init                 |  0.000051 |
+| System lock          |  0.000014 |
+| optimizing           |  0.000014 |
+| statistics           |  0.000036 |
+| preparing            |  0.000059 |
+| Sorting result       |  0.000010 |
+| executing            |  0.000006 |
+| Sending data         | 16.011360 |
+| end                  |  0.000011 |
+| query end            |  0.000009 |
+| closing tables       |  0.000008 |
+| freeing items        |  0.000068 |
+| cleaning up          |  0.000011 |
++----------------------+-----------+
+16 rows in set, 1 warning (0.00 sec)
+
+
+mysql> show index from hackernews;
++------------+------------+-----------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table      | Non_unique | Key_name        | Seq_in_index | Column_name     | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++------------+------------+-----------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| hackernews |          0 | PRIMARY         |            1 | id              | A         |     1099228 |     NULL | NULL   |      | BTREE      |         |               |
+| hackernews |          1 | comment_ranking |            1 | comment_ranking | A         |        1255 |     NULL | NULL   | YES  | BTREE      |         |               |
++------------+------------+-----------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+2 rows in set (0.01 sec)
+
+mysql> alter table hackernews drop index comment_ranking;
+
+
+mysql> select comment_ranking, sum(story_comment_count+author_comment_count) as c from hackernews where comment_ranking in (30,31,32) group by comment_ranking;
++-----------------+---------+
+| comment_ranking | c       |
++-----------------+---------+
+| 30              | 2290813 |
+| 31              | 2051937 |
+| 32              | 1882127 |
++-----------------+---------+
+3 rows in set (0.77 sec)
