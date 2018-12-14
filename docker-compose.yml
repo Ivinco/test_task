@@ -30,6 +30,16 @@ services:
       - idx:/var/idx/sphinx
     command: >
       bash -c "./indexandsearch.sh"
+  webserver:
+    build: ./php
+    ports:
+      - '82:80'
+    volumes:
+       - ./html/:/var/www/html
+    depends_on:
+      - sphinxsearch
+    links:
+      - sphinxsearch
   nagios:
     ###Add mysql-client to quick check. Probably we could use NRPE too
     build:
@@ -55,4 +65,5 @@ volumes:
   sphinxsearch: 
   log:
   data:
+  html:
   idx:
